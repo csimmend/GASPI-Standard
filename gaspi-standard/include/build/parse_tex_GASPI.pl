@@ -31,6 +31,8 @@
 #  Const correctness is applied depending on in/out/inout parameter.
 #  
 #  Includes timeout return value., if available
+#
+#  Includes queue full return value., if available
 #    
 #  Output is integrated into the GASPI.h.raw, GASPI.f90.raw templates.
 #

@@ -4886,9 +4886,9 @@ procedure \gaspifunction{waitsome}. It is an \gaspisemantic{asynchronous}
 procedure.
 
 \begin{FDef}
-  \begin{FDefSign}
+\begin{FDefSign}
 \begin{verbatim}
-  GASPI_READ_LIST_NOTIFY ( num
+GASPI_READ_LIST_NOTIFY ( num
                        , segment_id_local[num]
                        , offset_local[num]
                        , rank
@@ -4900,24 +4900,24 @@ procedure.
                        , queue
                        , timeout )
 \end{verbatim}
-  \end{FDefSign}
-  \parameterlistbegin
-  \parameterlistitem{in}{num}{the number of elements to read}
-  \parameterlistitem{in}{segment\_id\_local[num]}{the local segment ID's to write to}
-  \parameterlistitem{in}{offset\_local[num]}{the local offsets to write to}
-  \parameterlistitem{in}{rank}{the remote rank to read from}
-  \parameterlistitem{in}{segment\_id\_remote[num]}{the remote segment ID's to read from}
-  \parameterlistitem{in}{offset\_remote[num]}{the remote offsets in bytes to read from}
-  \parameterlistitem{in}{size[num]}{the size of the data elements to read}
-  \parameterlistitem{in}{segment\_id\_notification}{the segment use for the local notification}
-  \parameterlistitem{in}{notification\_id}{the local notification ID}
-  \parameterlistitem{in}{queue}{the queue to use}
-  \parameterlistitem{in}{timeout}{the timeout}
-  \parameterlistend
+\end{FDefSign}
+\parameterlistbegin
+\parameterlistitem{in}{num}{the number of elements to read}
+\parameterlistitem{in}{segment\_id\_local[num]}{the local segment ID's to write to}
+\parameterlistitem{in}{offset\_local[num]}{the local offsets to write to}
+\parameterlistitem{in}{rank}{the remote rank to read from}
+\parameterlistitem{in}{segment\_id\_remote[num]}{the remote segment ID's to read from}
+\parameterlistitem{in}{offset\_remote[num]}{the remote offsets in bytes to read from}
+\parameterlistitem{in}{size[num]}{the size of the data elements to read}
+\parameterlistitem{in}{segment\_id\_notification}{the segment use for the local notification}
+\parameterlistitem{in}{notification\_id}{the local notification ID}
+\parameterlistitem{in}{queue}{the queue to use}
+\parameterlistitem{in}{timeout}{the timeout}
+\parameterlistend
 
-  \begin{FDefSign}
+\begin{FDefSign}
 \begin{verbatim}
-  gaspi_return_t
+gaspi_return_t
 gaspi_read_list_notify ( gaspi_number_t num
                   , gaspi_segment_id_t *segment_id_local
                   , gaspi_offset_t *offset_local
@@ -4930,15 +4930,15 @@ gaspi_read_list_notify ( gaspi_number_t num
                   , gaspi_queue_id_t queue
                   , gaspi_timeout_t timeout )
 \end{verbatim}
-  \end{FDefSign}
-  \begin{FDefSign}
+\end{FDefSign}
+\begin{FDefSign}
 \begin{verbatim}
-  function gaspi_read_list_notify(num,segment_id_local,&
+function gaspi_read_list_notify(num,segment_id_local,&
 &         offset_local,rank,&
 &         segment_id_remote, offset_remote,&
-&         size,notification_id,queue,&
-&         timeout_ms) &                                                                                                           
-&         result( res ) bind(C, name=''gaspi_read_notify'')
+&         size,segment_id_notification,notification_id,queue,&
+&         timeout_ms) &           
+&         result( res ) bind(C, name=''gaspi_read_list_notify'')
                         
   integer(gaspi_number_t), value :: num
   type(c_ptr), value :: segment_id_local                     
@@ -4952,13 +4952,13 @@ gaspi_read_list_notify ( gaspi_number_t num
   integer(gaspi_queue_id_t), value :: queue
   integer(gaspi_timeout_t), value :: timeout_ms
   integer(gaspi_return_t) :: res
-end function gaspi_read_notify
+end function gaspi_read_list_notify
 \end{verbatim}
-  \end{FDefSign}
+\end{FDefSign}
 
 
-  \executionphasework
-  \FStdRetDesc
+\executionphasework
+\FStdRetDesc
 \end{FDef}
 
 \begin{useradvice}

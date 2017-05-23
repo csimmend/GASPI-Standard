@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.11.25)  23 MAY 2017 12:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.11.25)  23 MAY 2017 13:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1048,136 +1048,136 @@ Underfull \hbox (badness 1122) in paragraph at lines 4769--4771
  []
 
 [82] (./readnotifylisting.tex [83] [84]) [85] [86] [87]
-Underfull \hbox (badness 2293) in paragraph at lines 4964--4971
+Underfull \hbox (badness 2293) in paragraph at lines 4965--4972
 \T1/cmr/m/n/10 the (fixed) no-ti-fi-ca-tion value of 1. Sim-i-lar to the pro-ce
 -dure
  []
 
 [88] [89]
-Underfull \hbox (badness 1496) in paragraph at lines 5053--5057
+Underfull \hbox (badness 1496) in paragraph at lines 5054--5058
 []\T1/cmr/m/it/10 Implementor ad-vice: \T1/cmr/m/n/10 The com-mu-ni-ca-tion in-
 fras-truc-ture must be
  []
 
 
-Underfull \hbox (badness 4266) in paragraph at lines 5053--5057
+Underfull \hbox (badness 4266) in paragraph at lines 5054--5058
 \T1/cmr/m/n/10 re-spected i.e. pre-vi-ously es-tab-lished con-nec-tions (e.g. i
 n-vok-ing
  []
 
 [90] [91] [92] [93] [94] [95] [96]
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 5530--5530
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 5531--5531
 []\T1/cmtt/m/n/10 &         result( res ) bind(C, name="gaspi_passive_queue_pur
 ge")[] 
  []
 
 [97]
-Underfull \hbox (badness 1442) in paragraph at lines 5553--5557
+Underfull \hbox (badness 1442) in paragraph at lines 5554--5558
 []\T1/cmr/m/n/10 If the pro-ce-dure re-turns with \T1/cmtt/m/n/10 GASPI_TIMEOUT
 \T1/cmr/m/n/10 , the purge re-quest could
  []
 
 
-Underfull \hbox (badness 2875) in paragraph at lines 5553--5557
+Underfull \hbox (badness 2875) in paragraph at lines 5554--5558
 \T1/cmr/m/n/10 not be com-pleted dur-ing the given time-out. A sub-se-quent cal
 l of
  []
 
 [98] [99] [100]
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 5720--5720
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 5721--5721
 []\T1/cmtt/m/n/10 &         result( res ) bind(C, name="gaspi_atomic_compare_sw
 ap")[] 
  []
 
 [101] (../examples/resource_lock/resource_lock.c [102] [103])
-Overfull \hbox (20.17136pt too wide) in paragraph at lines 5846--5846
+Overfull \hbox (20.17136pt too wide) in paragraph at lines 5847--5847
 [][]                             \T1/cmtt/m/n/10 , GASPI_TEST)) == GASPI_TIMEOU
 T)[] 
  []
 
 [104] [105] [106] [107] [108] [109] [110] [111]
-Underfull \hbox (badness 4108) in paragraph at lines 6283--6285
+Underfull \hbox (badness 4108) in paragraph at lines 6284--6286
 []\T1/cmr/m/n/10 The for-tran user de-fined call-back func-tion re-quires an ex
 -plicit type
  []
 
 
-Underfull \hbox (badness 8189) in paragraph at lines 6283--6285
+Underfull \hbox (badness 8189) in paragraph at lines 6284--6286
 \T1/cmr/m/n/10 from the iso_c_binding mod-ule. in this ex-am-ple in-te-ger(c_in
 t)
  []
 
 [112] (../examples/allreduce_user.f90 [113]) [114] [115] [116] [117] [118]
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 6625--6625
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 6626--6626
 []\T1/cmtt/m/n/10 gaspi_passive_transfer_size_max (gaspi_size_t *transfer_size_
 max)[] 
  []
 
 [119]
-Underfull \hbox (badness 10000) in paragraph at lines 6721--6722
+Underfull \hbox (badness 10000) in paragraph at lines 6722--6723
 []\T1/cmr/m/it/10 (out) elem_max: \T1/cmr/m/n/10 the max-i-mum num-ber of el-e-
 ments al-lowed in
  []
 
 [120] [121]
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 6794--6794
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 6795--6795
 []\T1/cmtt/m/n/10 gaspi_build_infrastructure (gaspi_number_t *build_infrastruct
 ure)[] 
  []
 
 [122] [123] [124] [125]
-Underfull \hbox (badness 10000) in paragraph at lines 7059--7062
+Underfull \hbox (badness 10000) in paragraph at lines 7060--7063
 []\T1/cmr/m/n/10 If a \T1/cmr/m/sc/10 Gaspi \T1/cmr/m/n/10 im-ple-men-ta-tion d
 e-fines sym-bolic con-stants for
  []
 
 [126]
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 7118--7118
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 7119--7119
 []\T1/cmtt/m/n/10 function gaspi_statistic_counter_info(counter,counter_argumen
 t, &[] 
  []
 
 [127]
-Underfull \hbox (badness 1210) in paragraph at lines 7136--7139
+Underfull \hbox (badness 1210) in paragraph at lines 7137--7140
 \T1/cmr/m/n/10 per li-brary should pro-vide in-for-ma-tion for added coun-ters 
 by wrap-ping
  []
 
 
-Underfull \hbox (badness 2698) in paragraph at lines 7140--7141
+Underfull \hbox (badness 2698) in paragraph at lines 7141--7142
 []\T1/cmr/m/n/10 If the re-turn value is \T1/cmtt/m/n/10 GASPI_ERROR\T1/cmr/m/n
 /10 , the par-tic-u-lar \T1/cmr/m/it/10 counter \T1/cmr/m/n/10 is-sued to
  []
 
 
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 7168--7168
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 7169--7169
 []\T1/cmtt/m/n/10 gaspi_statistic_verbosity_level ( gaspi_number_t verbosity_le
 vel)[] 
  []
 
 [128]
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 7214--7214
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 7215--7215
 []                            \T1/cmtt/m/n/10 , gaspi_statistic_argument_t argu
 ment[] 
  []
 
 [129]
-Overfull \hbox (2.16669pt too wide) in paragraph at lines 7269--7269
+Overfull \hbox (2.16669pt too wide) in paragraph at lines 7270--7270
 []\T1/cmtt/m/n/10 gaspi_statistic_counter_reset (gaspi_statistic_counter_t coun
 ter)[] 
  []
 
 [130] [131] (../examples/success_or_die.h) (../examples/success_or_die.c)
 (../examples/wait_if_queue_full.h [132]) [133]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 7410.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 7410.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 7411.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 7411.
  (./GASPI_Standard_Draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 7410.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 7410.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 7411.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 7411.
 
 Package rerunfilecheck Info: File `GASPI_Standard_Draft.out' has not changed.
 (rerunfilecheck)             Checksum: A7CF5250D535777F15460833FC328CF7;13472.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 7410.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 7411.
  ) 
 Here is how much of TeX's memory you used:
  23213 strings out of 494953
@@ -1204,7 +1204,7 @@ cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
 
-Output written on GASPI_Standard_Draft.pdf (134 pages, 475361 bytes).
+Output written on GASPI_Standard_Draft.pdf (134 pages, 475415 bytes).
 PDF statistics:
  2913 PDF objects out of 2984 (max. 8388607)
  2292 compressed objects within 23 object streams

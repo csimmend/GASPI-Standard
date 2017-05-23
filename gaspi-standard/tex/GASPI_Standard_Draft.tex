@@ -4909,7 +4909,7 @@ GASPI_READ_LIST_NOTIFY ( num
 \parameterlistitem{in}{segment\_id\_remote[num]}{the remote segment ID's to read from}
 \parameterlistitem{in}{offset\_remote[num]}{the remote offsets in bytes to read from}
 \parameterlistitem{in}{size[num]}{the size of the data elements to read}
-\parameterlistitem{in}{segment\_id\_notification}{the segment use for the local notification}
+\parameterlistitem{in}{segment\_id\_notification}{the segment used for the local notification}
 \parameterlistitem{in}{notification\_id}{the local notification ID}
 \parameterlistitem{in}{queue}{the queue to use}
 \parameterlistitem{in}{timeout}{the timeout}
@@ -4935,8 +4935,8 @@ gaspi_read_list_notify ( gaspi_number_t num
 \begin{verbatim}
 function gaspi_read_list_notify(num,segment_id_local,&
 &         offset_local,rank,&
-&         segment_id_remote, offset_remote,&
-&         size,segment_id_notification,notification_id,queue,&
+&         segment_id_remote, offset_remote,size,&
+&         segment_id_notification,notification_id,queue,&
 &         timeout_ms) &           
 &         result( res ) bind(C, name=''gaspi_read_list_notify'')
                         
@@ -4958,7 +4958,8 @@ end function gaspi_read_list_notify
 
 
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
+
 \end{FDef}
 
 \begin{useradvice}

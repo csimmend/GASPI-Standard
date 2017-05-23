@@ -96,77 +96,78 @@
 \BOOKMARK [3][-]{subsubsection.8.4.3}{gaspi\137write\137list\137notify}{subsection.8.4}% 96
 \BOOKMARK [3][-]{subsubsection.8.4.4}{gaspi\137read\137notify}{subsection.8.4}% 97
 \BOOKMARK [3][-]{subsubsection.8.4.5}{gaspi\137read\137list}{subsection.8.4}% 98
-\BOOKMARK [2][-]{subsection.8.5}{Communication utilities}{section.8}% 99
-\BOOKMARK [3][-]{subsubsection.8.5.1}{gaspi\137queue\137create}{subsection.8.5}% 100
-\BOOKMARK [3][-]{subsubsection.8.5.2}{gaspi\137queue\137delete}{subsection.8.5}% 101
-\BOOKMARK [3][-]{subsubsection.8.5.3}{gaspi\137queue\137size}{subsection.8.5}% 102
-\BOOKMARK [3][-]{subsubsection.8.5.4}{gaspi\137queue\137purge}{subsection.8.5}% 103
-\BOOKMARK [1][-]{section.9}{Passive communication}{}% 104
-\BOOKMARK [2][-]{subsection.9.1}{Introduction and overview}{section.9}% 105
-\BOOKMARK [2][-]{subsection.9.2}{Passive communication calls}{section.9}% 106
-\BOOKMARK [3][-]{subsubsection.9.2.1}{gaspi\137passive\137send}{subsection.9.2}% 107
-\BOOKMARK [3][-]{subsubsection.9.2.2}{gaspi\137passive\137receive}{subsection.9.2}% 108
-\BOOKMARK [2][-]{subsection.9.3}{Passive communication utilities}{section.9}% 109
-\BOOKMARK [3][-]{subsubsection.9.3.1}{gaspi\137passive\137queue\137purge}{subsection.9.3}% 110
-\BOOKMARK [1][-]{section.10}{Global atomics}{}% 111
-\BOOKMARK [2][-]{subsection.10.1}{Introduction and Overview}{section.10}% 112
-\BOOKMARK [2][-]{subsection.10.2}{Atomic operation calls}{section.10}% 113
-\BOOKMARK [3][-]{subsubsection.10.2.1}{gaspi\137atomic\137fetch\137add}{subsection.10.2}% 114
-\BOOKMARK [3][-]{subsubsection.10.2.2}{gaspi\137atomic\137compare\137swap}{subsection.10.2}% 115
-\BOOKMARK [3][-]{subsubsection.10.2.3}{Examples}{subsection.10.2}% 116
-\BOOKMARK [1][-]{section.11}{Collective communication}{}% 117
-\BOOKMARK [2][-]{subsection.11.1}{Introduction and overview}{section.11}% 118
-\BOOKMARK [2][-]{subsection.11.2}{Barrier synchronisation}{section.11}% 119
-\BOOKMARK [3][-]{subsubsection.11.2.1}{gaspi\137barrier}{subsection.11.2}% 120
-\BOOKMARK [3][-]{subsubsection.11.2.2}{Examples}{subsection.11.2}% 121
-\BOOKMARK [2][-]{subsection.11.3}{Predefined global reduction operations}{section.11}% 122
-\BOOKMARK [3][-]{subsubsection.11.3.1}{gaspi\137allreduce}{subsection.11.3}% 123
-\BOOKMARK [3][-]{subsubsection.11.3.2}{Predefined reduction operations}{subsection.11.3}% 124
-\BOOKMARK [3][-]{subsubsection.11.3.3}{Predefined types}{subsection.11.3}% 125
-\BOOKMARK [2][-]{subsection.11.4}{User-defined global reduction operations}{section.11}% 126
-\BOOKMARK [3][-]{subsubsection.11.4.1}{gaspi\137allreduce\137user}{subsection.11.4}% 127
-\BOOKMARK [3][-]{subsubsection.11.4.2}{gaspi\137reduce\137operation}{subsection.11.4}% 128
-\BOOKMARK [3][-]{subsubsection.11.4.3}{allreduce state}{subsection.11.4}% 129
-\BOOKMARK [3][-]{subsubsection.11.4.4}{Example}{subsection.11.4}% 130
-\BOOKMARK [1][-]{section.12}{Gaspi getter functions}{}% 131
-\BOOKMARK [2][-]{subsection.12.1}{Getter functions for group management}{section.12}% 132
-\BOOKMARK [3][-]{subsubsection.12.1.1}{gaspi\137group\137max}{subsection.12.1}% 133
-\BOOKMARK [2][-]{subsection.12.2}{Getter functions for segment management}{section.12}% 134
-\BOOKMARK [3][-]{subsubsection.12.2.1}{gaspi\137segment\137max}{subsection.12.2}% 135
-\BOOKMARK [2][-]{subsection.12.3}{Getter functions for communication management}{section.12}% 136
-\BOOKMARK [3][-]{subsubsection.12.3.1}{gaspi\137queue\137num}{subsection.12.3}% 137
-\BOOKMARK [3][-]{subsubsection.12.3.2}{gaspi\137queue\137size\137max}{subsection.12.3}% 138
-\BOOKMARK [3][-]{subsubsection.12.3.3}{gaspi\137queue\137max}{subsection.12.3}% 139
-\BOOKMARK [3][-]{subsubsection.12.3.4}{gaspi\137transfer\137size\137max}{subsection.12.3}% 140
-\BOOKMARK [3][-]{subsubsection.12.3.5}{gaspi\137notification\137num}{subsection.12.3}% 141
-\BOOKMARK [2][-]{subsection.12.4}{Getter functions for passive communication}{section.12}% 142
-\BOOKMARK [3][-]{subsubsection.12.4.1}{gaspi\137passive\137transfer\137size\137max}{subsection.12.4}% 143
-\BOOKMARK [2][-]{subsection.12.5}{Getter functions related to atomic operations}{section.12}% 144
-\BOOKMARK [3][-]{subsubsection.12.5.1}{gaspi\137atomic\137max}{subsection.12.5}% 145
-\BOOKMARK [2][-]{subsection.12.6}{Getter functions for collective communication}{section.12}% 146
-\BOOKMARK [3][-]{subsubsection.12.6.1}{gaspi\137allreduce\137buf\137size}{subsection.12.6}% 147
-\BOOKMARK [3][-]{subsubsection.12.6.2}{gaspi\137allreduce\137elem\137max}{subsection.12.6}% 148
-\BOOKMARK [2][-]{subsection.12.7}{Getter functions related to infrastructure}{section.12}% 149
-\BOOKMARK [3][-]{subsubsection.12.7.1}{gaspi\137network\137type}{subsection.12.7}% 150
-\BOOKMARK [3][-]{subsubsection.12.7.2}{gaspi\137build\137infrastructure}{subsection.12.7}% 151
-\BOOKMARK [1][-]{section.13}{Gaspi Environmental Management}{}% 152
-\BOOKMARK [2][-]{subsection.13.1}{Implementation Information}{section.13}% 153
-\BOOKMARK [3][-]{subsubsection.13.1.1}{gaspi\137version}{subsection.13.1}% 154
-\BOOKMARK [2][-]{subsection.13.2}{Timing information}{section.13}% 155
-\BOOKMARK [3][-]{subsubsection.13.2.1}{gaspi\137time\137get}{subsection.13.2}% 156
-\BOOKMARK [3][-]{subsubsection.13.2.2}{gaspi\137time\137ticks}{subsection.13.2}% 157
-\BOOKMARK [2][-]{subsection.13.3}{Error Codes and Classes}{section.13}% 158
-\BOOKMARK [3][-]{subsubsection.13.3.1}{Gaspi error codes}{subsection.13.3}% 159
-\BOOKMARK [3][-]{subsubsection.13.3.2}{gaspi\137print\137error}{subsection.13.3}% 160
-\BOOKMARK [1][-]{section.14}{Profiling Interface}{}% 161
-\BOOKMARK [2][-]{subsection.14.1}{Statistics}{section.14}% 162
-\BOOKMARK [3][-]{subsubsection.14.1.1}{gaspi\137statistic\137counter\137max}{subsection.14.1}% 163
-\BOOKMARK [3][-]{subsubsection.14.1.2}{gaspi\137statistic\137counter\137info}{subsection.14.1}% 164
-\BOOKMARK [3][-]{subsubsection.14.1.3}{gaspi\137statistic\137verbosity\137level}{subsection.14.1}% 165
-\BOOKMARK [3][-]{subsubsection.14.1.4}{gaspi\137statistic\137counter\137get}{subsection.14.1}% 166
-\BOOKMARK [3][-]{subsubsection.14.1.5}{gaspi\137statistic\137counter\137reset}{subsection.14.1}% 167
-\BOOKMARK [2][-]{subsection.14.2}{Event Tracing}{section.14}% 168
-\BOOKMARK [3][-]{subsubsection.14.2.1}{gaspi\137pcontrol}{subsection.14.2}% 169
-\BOOKMARK [1][-]{appendix.A}{Listings}{}% 170
-\BOOKMARK [2][-]{subsection.A.1}{success\137or\137die}{appendix.A}% 171
-\BOOKMARK [2][-]{subsection.A.2}{wait\137if\137queue\137full}{appendix.A}% 172
+\BOOKMARK [3][-]{subsubsection.8.4.6}{gaspi\137read\137list\137notify}{subsection.8.4}% 99
+\BOOKMARK [2][-]{subsection.8.5}{Communication utilities}{section.8}% 100
+\BOOKMARK [3][-]{subsubsection.8.5.1}{gaspi\137queue\137create}{subsection.8.5}% 101
+\BOOKMARK [3][-]{subsubsection.8.5.2}{gaspi\137queue\137delete}{subsection.8.5}% 102
+\BOOKMARK [3][-]{subsubsection.8.5.3}{gaspi\137queue\137size}{subsection.8.5}% 103
+\BOOKMARK [3][-]{subsubsection.8.5.4}{gaspi\137queue\137purge}{subsection.8.5}% 104
+\BOOKMARK [1][-]{section.9}{Passive communication}{}% 105
+\BOOKMARK [2][-]{subsection.9.1}{Introduction and overview}{section.9}% 106
+\BOOKMARK [2][-]{subsection.9.2}{Passive communication calls}{section.9}% 107
+\BOOKMARK [3][-]{subsubsection.9.2.1}{gaspi\137passive\137send}{subsection.9.2}% 108
+\BOOKMARK [3][-]{subsubsection.9.2.2}{gaspi\137passive\137receive}{subsection.9.2}% 109
+\BOOKMARK [2][-]{subsection.9.3}{Passive communication utilities}{section.9}% 110
+\BOOKMARK [3][-]{subsubsection.9.3.1}{gaspi\137passive\137queue\137purge}{subsection.9.3}% 111
+\BOOKMARK [1][-]{section.10}{Global atomics}{}% 112
+\BOOKMARK [2][-]{subsection.10.1}{Introduction and Overview}{section.10}% 113
+\BOOKMARK [2][-]{subsection.10.2}{Atomic operation calls}{section.10}% 114
+\BOOKMARK [3][-]{subsubsection.10.2.1}{gaspi\137atomic\137fetch\137add}{subsection.10.2}% 115
+\BOOKMARK [3][-]{subsubsection.10.2.2}{gaspi\137atomic\137compare\137swap}{subsection.10.2}% 116
+\BOOKMARK [3][-]{subsubsection.10.2.3}{Examples}{subsection.10.2}% 117
+\BOOKMARK [1][-]{section.11}{Collective communication}{}% 118
+\BOOKMARK [2][-]{subsection.11.1}{Introduction and overview}{section.11}% 119
+\BOOKMARK [2][-]{subsection.11.2}{Barrier synchronisation}{section.11}% 120
+\BOOKMARK [3][-]{subsubsection.11.2.1}{gaspi\137barrier}{subsection.11.2}% 121
+\BOOKMARK [3][-]{subsubsection.11.2.2}{Examples}{subsection.11.2}% 122
+\BOOKMARK [2][-]{subsection.11.3}{Predefined global reduction operations}{section.11}% 123
+\BOOKMARK [3][-]{subsubsection.11.3.1}{gaspi\137allreduce}{subsection.11.3}% 124
+\BOOKMARK [3][-]{subsubsection.11.3.2}{Predefined reduction operations}{subsection.11.3}% 125
+\BOOKMARK [3][-]{subsubsection.11.3.3}{Predefined types}{subsection.11.3}% 126
+\BOOKMARK [2][-]{subsection.11.4}{User-defined global reduction operations}{section.11}% 127
+\BOOKMARK [3][-]{subsubsection.11.4.1}{gaspi\137allreduce\137user}{subsection.11.4}% 128
+\BOOKMARK [3][-]{subsubsection.11.4.2}{gaspi\137reduce\137operation}{subsection.11.4}% 129
+\BOOKMARK [3][-]{subsubsection.11.4.3}{allreduce state}{subsection.11.4}% 130
+\BOOKMARK [3][-]{subsubsection.11.4.4}{Example}{subsection.11.4}% 131
+\BOOKMARK [1][-]{section.12}{Gaspi getter functions}{}% 132
+\BOOKMARK [2][-]{subsection.12.1}{Getter functions for group management}{section.12}% 133
+\BOOKMARK [3][-]{subsubsection.12.1.1}{gaspi\137group\137max}{subsection.12.1}% 134
+\BOOKMARK [2][-]{subsection.12.2}{Getter functions for segment management}{section.12}% 135
+\BOOKMARK [3][-]{subsubsection.12.2.1}{gaspi\137segment\137max}{subsection.12.2}% 136
+\BOOKMARK [2][-]{subsection.12.3}{Getter functions for communication management}{section.12}% 137
+\BOOKMARK [3][-]{subsubsection.12.3.1}{gaspi\137queue\137num}{subsection.12.3}% 138
+\BOOKMARK [3][-]{subsubsection.12.3.2}{gaspi\137queue\137size\137max}{subsection.12.3}% 139
+\BOOKMARK [3][-]{subsubsection.12.3.3}{gaspi\137queue\137max}{subsection.12.3}% 140
+\BOOKMARK [3][-]{subsubsection.12.3.4}{gaspi\137transfer\137size\137max}{subsection.12.3}% 141
+\BOOKMARK [3][-]{subsubsection.12.3.5}{gaspi\137notification\137num}{subsection.12.3}% 142
+\BOOKMARK [2][-]{subsection.12.4}{Getter functions for passive communication}{section.12}% 143
+\BOOKMARK [3][-]{subsubsection.12.4.1}{gaspi\137passive\137transfer\137size\137max}{subsection.12.4}% 144
+\BOOKMARK [2][-]{subsection.12.5}{Getter functions related to atomic operations}{section.12}% 145
+\BOOKMARK [3][-]{subsubsection.12.5.1}{gaspi\137atomic\137max}{subsection.12.5}% 146
+\BOOKMARK [2][-]{subsection.12.6}{Getter functions for collective communication}{section.12}% 147
+\BOOKMARK [3][-]{subsubsection.12.6.1}{gaspi\137allreduce\137buf\137size}{subsection.12.6}% 148
+\BOOKMARK [3][-]{subsubsection.12.6.2}{gaspi\137allreduce\137elem\137max}{subsection.12.6}% 149
+\BOOKMARK [2][-]{subsection.12.7}{Getter functions related to infrastructure}{section.12}% 150
+\BOOKMARK [3][-]{subsubsection.12.7.1}{gaspi\137network\137type}{subsection.12.7}% 151
+\BOOKMARK [3][-]{subsubsection.12.7.2}{gaspi\137build\137infrastructure}{subsection.12.7}% 152
+\BOOKMARK [1][-]{section.13}{Gaspi Environmental Management}{}% 153
+\BOOKMARK [2][-]{subsection.13.1}{Implementation Information}{section.13}% 154
+\BOOKMARK [3][-]{subsubsection.13.1.1}{gaspi\137version}{subsection.13.1}% 155
+\BOOKMARK [2][-]{subsection.13.2}{Timing information}{section.13}% 156
+\BOOKMARK [3][-]{subsubsection.13.2.1}{gaspi\137time\137get}{subsection.13.2}% 157
+\BOOKMARK [3][-]{subsubsection.13.2.2}{gaspi\137time\137ticks}{subsection.13.2}% 158
+\BOOKMARK [2][-]{subsection.13.3}{Error Codes and Classes}{section.13}% 159
+\BOOKMARK [3][-]{subsubsection.13.3.1}{Gaspi error codes}{subsection.13.3}% 160
+\BOOKMARK [3][-]{subsubsection.13.3.2}{gaspi\137print\137error}{subsection.13.3}% 161
+\BOOKMARK [1][-]{section.14}{Profiling Interface}{}% 162
+\BOOKMARK [2][-]{subsection.14.1}{Statistics}{section.14}% 163
+\BOOKMARK [3][-]{subsubsection.14.1.1}{gaspi\137statistic\137counter\137max}{subsection.14.1}% 164
+\BOOKMARK [3][-]{subsubsection.14.1.2}{gaspi\137statistic\137counter\137info}{subsection.14.1}% 165
+\BOOKMARK [3][-]{subsubsection.14.1.3}{gaspi\137statistic\137verbosity\137level}{subsection.14.1}% 166
+\BOOKMARK [3][-]{subsubsection.14.1.4}{gaspi\137statistic\137counter\137get}{subsection.14.1}% 167
+\BOOKMARK [3][-]{subsubsection.14.1.5}{gaspi\137statistic\137counter\137reset}{subsection.14.1}% 168
+\BOOKMARK [2][-]{subsection.14.2}{Event Tracing}{section.14}% 169
+\BOOKMARK [3][-]{subsubsection.14.2.1}{gaspi\137pcontrol}{subsection.14.2}% 170
+\BOOKMARK [1][-]{appendix.A}{Listings}{}% 171
+\BOOKMARK [2][-]{subsection.A.1}{success\137or\137die}{appendix.A}% 172
+\BOOKMARK [2][-]{subsection.A.2}{wait\137if\137queue\137full}{appendix.A}% 173

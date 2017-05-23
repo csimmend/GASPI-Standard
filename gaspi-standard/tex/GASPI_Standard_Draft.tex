@@ -1891,6 +1891,7 @@ required, in each of the following operations:
     \item \gaspifunction{read}
     \item \gaspifunction{read\_notify}
     \item \gaspifunction{read\_list}
+    \item \gaspifunction{read\_list\_notify}
     \item \gaspifunction{notify}
     \item \gaspifunction{wait}
   \end{itemize}
@@ -3454,13 +3455,14 @@ communication patterns:
 \item \gaspifunction{write\_list\_notify}
 \end{itemize}
 
-The read operations have two different variants that allow different
+The read operations have four different variants that allow different
 communication patterns:
 
 \begin{itemize}
 \item \gaspifunction{read}
 \item \gaspifunction{read\_notify}
 \item \gaspifunction{read\_list}
+\item \gaspifunction{read\_list\_notify}
 \end{itemize}
 
 The read operations do not support notification calls. This is due to
@@ -3733,7 +3735,7 @@ for the same queue. A subsequent call of \gaspifunction{read} has to be
 invoked in order to complete the read call.
 
 A communication request posted to a given queue can be considered as completed, if the
-the correspondent \gaspifunction{wait} returns with \GASPISUCC{}. For completed  \gaspifunction{read}
+correspondent \gaspifunction{wait} returns with \GASPISUCC{}. For completed  \gaspifunction{read}
 requests, the data is guaranteed to be locally available.
 
 If the queue to which the communication request has been posted is full, i.\,e.\ if the number of
@@ -4005,7 +4007,7 @@ for the same queue. A subsequent call of \gaspifunction{notify} has to be
 invoked in order to complete the call.
 
 A notification request posted to a given queue can be considered as completed, if the
-the correspondent \gaspifunction{wait} returns with \GASPISUCC{}.
+correspondent \gaspifunction{wait} returns with \GASPISUCC{}.
 
 If the queue to which the notification request has been posted is full, i.\,e.\ if the number of
 posted communication requests has already reached the queue size of a given queue, the notification
@@ -4219,9 +4221,9 @@ undefined.
 \begin{useradvice}
 One scenario for the usage of \gaspifunction{notify\_waitsome}
 inspecting only one notification is the following: The 
-local side posts a \gaspifunction{read\_notify} call. \GASPI{} guarantees, that
-if the notification has arrived on the local process, the posted read
-request carrying the work load of the function \gaspifunction{read\_notify}
+local side posts a \gaspifunction{read\_notify} (\gaspifunction{read\_list\_notify}) call.
+\GASPI{} guarantees, that if the notification has arrived on the local process, the posted read
+request carrying the work load of the function \gaspifunction{read\_notify} (\gaspifunction{read\_list\_notify})
 has arrived as well.
 \end{useradvice}
 
@@ -4376,7 +4378,7 @@ for the same queue. A subsequent call of the communication request has to be
 invoked in order to complete the read call.
 
 A communication request posted to a given queue can be considered as completed, if the
-the correspondent \gaspifunction{wait} returns with \GASPISUCC{}. 
+correspondent \gaspifunction{wait} returns with \GASPISUCC{}. 
 
 If the queue to which the communication request has been posted is full, i.\,e.\ if the number of
 posted communication requests has already reached the queue size of a given queue, the communication
@@ -4593,6 +4595,7 @@ GASPI_WRITE_LIST_NOTIFY
                 , segment_id_remote[num]
                 , offset_remote[num]
                 , size[num]
+                , segment_id_notification
                 , notification_id
                 , notification_value
                 , queue
@@ -4608,6 +4611,7 @@ GASPI_WRITE_LIST_NOTIFY
 \parameterlistitem{in}{segment\_id\_remote[num]}{list of remote segments to write to}
 \parameterlistitem{in}{offset\_remote[num]}{list of remote offsets to write to}
 \parameterlistitem{in}{size[num]}{list of sizes of the data to write}
+\parameterlistitem{in}{segment\_id\_notification}{the segment use for the remote notification}
 \parameterlistitem{in}{notification\_id}{the remote notification ID}
 \parameterlistitem{in}{notification\_value}{the value of the notification to write}
 \parameterlistitem{in}{queue}{the queue to use}
@@ -4626,6 +4630,7 @@ gaspi_write_list_notify
                 , gaspi_segment_id_t *segment_id_remote
                 , gaspi_offset_t *offset_remote
                 , gaspi_size_t *size
+                , gaspi_segment_id_t segment_id_notification
                 , gaspi_notification_id_t notification_id
                 , gaspi_notification_t notification_value
                 , gaspi_queue_id_t queue
@@ -4865,6 +4870,113 @@ end function gaspi_read_list
 \executionphasework
 \FStdRetDescQueue
 \end{FDef}
+
+
+
+
+\subsubsection{\gaspifunction{read\_list\_notify}}
+
+The \gaspifunction{read\_list\_notify} variant extends the simple
+\gaspifunction{read\_list} with a notification on the local
+side. This applies to communication patterns that require tighter
+synchronisation on data movement. The local receiver of the data is
+notified when the read list is finished and can verify this through the
+procedure \gaspifunction{waitsome}. It is an \gaspisemantic{asynchronous}
+\gaspisemantic{non-local} \gaspisemantic{time-based blocking}
+procedure.
+
+\begin{FDef}
+  \begin{FDefSign}
+\begin{verbatim}
+  GASPI_READ_LIST_NOTIFY ( num
+                       , segment_id_local[num]
+                       , offset_local[num]
+                       , rank
+                       , segment_id_remote[num]                                                                       
+                       , offset_remote[num]        
+                       , size[num]
+                       , segment_id_notification
+                       , notification_id_local
+                       , queue
+                       , timeout )
+\end{verbatim}
+  \end{FDefSign}
+  \parameterlistbegin
+  \parameterlistitem{in}{num}{the number of elements to read}
+  \parameterlistitem{in}{segment\_id\_local[num]}{the local segment ID's to write to}
+  \parameterlistitem{in}{offset\_local[num]}{the local offsets to write to}
+  \parameterlistitem{in}{rank}{the remote rank to read from}
+  \parameterlistitem{in}{segment\_id\_remote[num]}{the remote segment ID's to read from}
+  \parameterlistitem{in}{offset\_remote[num]}{the remote offsets in bytes to read from}
+  \parameterlistitem{in}{size[num]}{the size of the data elements to read}
+  \parameterlistitem{in}{segment\_id\_notification}{the segment use for the local notification}
+  \parameterlistitem{in}{notification\_id}{the local notification ID}
+  \parameterlistitem{in}{queue}{the queue to use}
+  \parameterlistitem{in}{timeout}{the timeout}
+  \parameterlistend
+
+  \begin{FDefSign}
+\begin{verbatim}
+  gaspi_return_t
+gaspi_read_list_notify ( gaspi_number_t num
+                  , gaspi_segment_id_t *segment_id_local
+                  , gaspi_offset_t *offset_local
+                  , gaspi_rank_t rank
+                  , gaspi_segment_id_t *segment_id_remote
+                  , gaspi_offset_t *offset_remote
+                  , gaspi_size_t *size
+                  , gaspi_segment_id_t segment_id_notification
+                  , gaspi_notification_id_t notification_id
+                  , gaspi_queue_id_t queue
+                  , gaspi_timeout_t timeout )
+\end{verbatim}
+  \end{FDefSign}
+  \begin{FDefSign}
+\begin{verbatim}
+  function gaspi_read_list_notify(num,segment_id_local,&
+&         offset_local,rank,&
+&         segment_id_remote, offset_remote,&
+&         size,notification_id,queue,&
+&         timeout_ms) &                                                                                                           
+&         result( res ) bind(C, name=''gaspi_read_notify'')
+                        
+  integer(gaspi_number_t), value :: num
+  type(c_ptr), value :: segment_id_local                     
+  type(c_ptr), value :: offset_local
+  integer(gaspi_rank_t), value :: rank
+  type(c_ptr), value :: segment_id_remote
+  type(c_ptr), value :: offset_remote
+  type(c_ptr), value :: size
+  integer(gaspi_segment_id_t), value :: segment_id_notification
+  integer(gaspi_notification_id_t), value :: notification_id
+  integer(gaspi_queue_id_t), value :: queue
+  integer(gaspi_timeout_t), value :: timeout_ms
+  integer(gaspi_return_t) :: res
+end function gaspi_read_notify
+\end{verbatim}
+  \end{FDefSign}
+
+
+  \executionphasework
+  \FStdRetDesc
+\end{FDef}
+
+\begin{useradvice}
+  In contrast to the procedure \gaspifunction{write\_list\_notify}, the notification
+  in the procedure \gaspifunction{read\_list\_notify} carries the (fixed) notification value of 1.
+  Similar to the procedure \gaspifunction{write\_list\_notify} a call to \gaspifunction{read\_list\_notify}
+  only guarantees ordering with respect to the data bundled in this communication and the given notification.
+  Specifically there are no ordering guarantees to other read operations. For this latter functionality
+  a call to the \gaspifunction{wait} procedure is required.
+\end{useradvice}
+
+\begin{implementoradvice}
+  The procedure is not semantically equivalent to a call to \gaspifunction{read\_list}
+  and a subsequent call of \gaspifunction{notify}, since the latter aims at remote completion
+  rather than local completion. Also this call does not enforce an ordering relative to other
+  read operations.
+\end{implementoradvice}
+
 
 %\parameter{num} new entries are inserted into the given queue.
 
@@ -5623,7 +5735,7 @@ end function gaspi_atomic_compare_swap
 \end{FDef}
 
 \gaspifunction{atomic\_compare\_swap} atomically compares the global
-value of the the value on rank \parameter{rank},
+value of the value on rank \parameter{rank},
 segment \parameter{segment\_id\_remote} and
 offset \parameter{offset\_remote} to the value
 of \parameter{comparator}. If the comparison is true, this global

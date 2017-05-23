@@ -1369,8 +1369,8 @@ gaspi_read_list ( gaspi_number_t const num
  *                          , segment_id_local[num]
  *                          , offset_local[num]
  *                          , rank
- *                          , segment_id_remote[num]                                                                       
- *                          , offset_remote[num]        
+ *                          , segment_id_remote[num]
+ *                          , offset_remote[num]
  *                          , size[num]
  *                          , segment_id_notification
  *                          , notification_id_local

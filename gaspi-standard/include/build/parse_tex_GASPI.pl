@@ -89,6 +89,9 @@ my %comments      = $string
 my %declarations  = $string 
     =~ m/\\subsubsection\{\\gaspifunction\{(.*?)\}\}.*?\\begin\{FDef\}(.*?)\\end\{FDef\}/sg;
 
+# functions which require a queue_full return value
+my $fn = "(?:notify|write|read|write_list|read_list|write_notify|read_notify|write_list_notify|read_list_notify)";
+
 foreach my $function (@functions) {
 
     my $prototype;
@@ -218,15 +221,18 @@ foreach my $function (@functions) {
 	if ( $parameter =~ /timeout/i ) {
 	    $timeout=1;
 	}	    
-
     }
     
 # return values c
     print C_FILE " \*\n \* RETURN VALUE:\n";
     print C_FILE " \*   \@return GASPI_SUCCESS in case of success.\n";
     print C_FILE " \*           GASPI_ERROR in case of error.\n";
+
     if ( $timeout != 0 ) {
 	print C_FILE " \*           GASPI_TIMEOUT in case of timeout.\n";
+    }	
+    if ( $function =~ /\b$fn\b/ ) {
+	print C_FILE " \*           QUEUE FULL in case of a full queue.\n";
     }	
 
 # return values fortran
@@ -236,6 +242,9 @@ foreach my $function (@functions) {
     if ( $timeout != 0 ) {
 	print F90_FILE "!           GASPI_TIMEOUT in case of timeout.\n";
     }	
+    if ( $function =~ /\b$fn\b/ ) {
+	print F90_FILE "!           QUEUE FULL in case of a full queue.\n";
+    }
     
 # include actual c forward declaration     
     $c =~ s/^(.*)\n$/$1;/s;        

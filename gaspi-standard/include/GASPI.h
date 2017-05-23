@@ -878,6 +878,7 @@ gaspi_segment_ptr ( gaspi_segment_id_t const segment_id
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
 
 gaspi_return_t
@@ -924,6 +925,7 @@ gaspi_write ( gaspi_segment_id_t const segment_id_local
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
 
 gaspi_return_t
@@ -993,6 +995,7 @@ gaspi_wait ( gaspi_queue_id_t const queue
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
 
 gaspi_return_t
@@ -1116,6 +1119,7 @@ gaspi_notify_reset ( gaspi_segment_id_t const segment_id
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
 
 gaspi_return_t
@@ -1167,6 +1171,7 @@ gaspi_write_notify ( gaspi_segment_id_t const segment_id_local
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
 
 gaspi_return_t
@@ -1200,6 +1205,7 @@ gaspi_write_list ( gaspi_number_t const num
  *                   , segment_id_remote[num]
  *                   , offset_remote[num]
  *                   , size[num]
+ *                   , segment_id_notification
  *                   , notification_id
  *                   , notification_value
  *                   , queue
@@ -1213,6 +1219,7 @@ gaspi_write_list ( gaspi_number_t const num
  *   @param segment_id_remote list of remote segments to write to  (in)
  *   @param offset_remote list of remote offsets to write to  (in)
  *   @param size list of sizes of the data to write  (in)
+ *   @param segment_id_notification the segment use for the remote notification  (in)
  *   @param notification_id the remote notification ID  (in)
  *   @param notification_value the value of the notification to write  (in)
  *   @param queue the queue to use  (in)
@@ -1222,6 +1229,7 @@ gaspi_write_list ( gaspi_number_t const num
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
 
 gaspi_return_t
@@ -1233,6 +1241,7 @@ gaspi_write_list_notify
                 , gaspi_segment_id_t const *segment_id_remote
                 , gaspi_offset_t const *offset_remote
                 , gaspi_size_t const *size
+                , gaspi_segment_id_t const segment_id_notification
                 , gaspi_notification_id_t const notification_id
                 , gaspi_notification_t const notification_value
                 , gaspi_queue_id_t const queue
@@ -1277,6 +1286,7 @@ gaspi_write_list_notify
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
                                                                                                                                                
 gaspi_return_t
@@ -1327,6 +1337,7 @@ gaspi_read_notify (  gaspi_segment_id_t const segment_id_local
  *   @return GASPI_SUCCESS in case of success.
  *           GASPI_ERROR in case of error.
  *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
  */
 
 gaspi_return_t
@@ -1339,6 +1350,65 @@ gaspi_read_list ( gaspi_number_t const num
                 , gaspi_size_t const *size
                 , gaspi_queue_id_t const queue
                 , gaspi_timeout_t const timeout );
+
+/*
+ * FUNCTION:
+ *   read_list_notify
+ *
+ * DESCRIPTION:
+ *   The gaspi_read_list_notify variant extends the simple 
+ *   gaspi_read_list with a notification on the local side. 
+ *   This applies to communication patterns that require tighter synchronisation 
+ *   on data movement. The local receiver of the data is notified 
+ *   when the read list is finished and can verify this through the 
+ *   procedure gaspi_waitsome. It is an asynchronous non-local 
+ *   time-based blocking procedure. 
+ *
+ * FUNCTION PROTOTYPE:
+ *   GASPI_READ_LIST_NOTIFY ( num
+ *                          , segment_id_local[num]
+ *                          , offset_local[num]
+ *                          , rank
+ *                          , segment_id_remote[num]                                                                       
+ *                          , offset_remote[num]        
+ *                          , size[num]
+ *                          , segment_id_notification
+ *                          , notification_id_local
+ *                          , queue
+ *                          , timeout )
+ *
+ * PARAMETER:
+ *   @param num the number of elements to read  (in)
+ *   @param segment_id_local the local segment ID's to write to  (in)
+ *   @param offset_local the local offsets to write to  (in)
+ *   @param rank the remote rank to read from  (in)
+ *   @param segment_id_remote the remote segment ID's to read from  (in)
+ *   @param offset_remote the remote offsets in bytes to read from  (in)
+ *   @param size the size of the data elements to read  (in)
+ *   @param segment_id_notification the segment used for the local notification  (in)
+ *   @param notification_id the local notification ID  (in)
+ *   @param queue the queue to use  (in)
+ *   @param timeout the timeout  (in)
+ *
+ * RETURN VALUE:
+ *   @return GASPI_SUCCESS in case of success.
+ *           GASPI_ERROR in case of error.
+ *           GASPI_TIMEOUT in case of timeout.
+ *           QUEUE FULL in case of a full queue.
+ */
+
+gaspi_return_t
+gaspi_read_list_notify ( gaspi_number_t const num
+                  , gaspi_segment_id_t const *segment_id_local
+                  , gaspi_offset_t const *offset_local
+                  , gaspi_rank_t const rank
+                  , gaspi_segment_id_t const *segment_id_remote
+                  , gaspi_offset_t const *offset_remote
+                  , gaspi_size_t const *size
+                  , gaspi_segment_id_t const segment_id_notification
+                  , gaspi_notification_id_t const notification_id
+                  , gaspi_queue_id_t const queue
+                  , gaspi_timeout_t const timeout );
 
 /*
  * FUNCTION:

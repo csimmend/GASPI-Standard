@@ -18,6 +18,7 @@
 \usepackage{moreverb}
 \usepackage{listings}
 \usepackage{ifthen}
+\usepackage{hyperref}
 \setlength{\tabcolsep}{5pt}
 \setlength{\arraycolsep}{5pt}
 \setlength{\cmidrulekern}{4pt}
@@ -41,8 +42,8 @@
 \tikzstyle{zero}=[draw=none,coordinate]
 \newcommand{\zerowsep}{\hskip 0pt plus 0.1pt minus 0.1pt}
 \makeatletter
-\newcommand{\ZSEP}[1]{\ifx#1\@@@EOZ@@@\let\next\relax\else\ifx#1_#1\zerowsep\else#1\fi\let\next\ZSEP\fi\next}
-\newcommand{\zsep}[1]{\ZSEP{}#1\@@@EOZ@@@}
+\newcommand{\ZSEP}[1]{#1}
+\newcommand{\zsep}[1]{#1}
 \makeatother
 \newcommand{\sol}[1]{\emph{\zsep{#1}}}
 \newcommand{\gaspiprefix}{gaspi}
@@ -120,6 +121,8 @@
 \newcommand{\GASPITIMETXT}{operation has run into a timeout}
 \newcommand{\GASPIGERR}{{\tt\protect\zsep{GASPI_ERROR}}}
 \newcommand{\GASPIGERRTXT}{operation has finished with an error}
+\newcommand{\GASPIQUEUE}{{\tt\protect\zsep{GASPI_QUEUE_FULL}}}
+\newcommand{\GASPIQUEUETXT}{operation could not be posted due to a full queue}
 \newcommand{\GASPIGROUPALL}{{\tt\protect\zsep{GASPI_GROUP_ALL}}}
 \newcommand{\GASPIALLOCDEF}{{\tt\protect\zsep{GASPI_ALLOC_DEFAULT}}}
 \newcommand{\GASPITEST}{{\tt\protect\zsep{GASPI_TEST}}}
@@ -130,6 +133,15 @@
   \returnlistitem{\GASPISUCC}{\GASPISUCCTXT}
   \returnlistitem{\GASPITIME}{\GASPITIMETXT}
   \returnlistitem{\GASPIGERR}{\GASPIGERRTXT}
+  \fdeffinal\returnlistend
+}
+\newcommand{\FStdRetDescQueue}
+{
+  \returnlistbegin
+  \returnlistitem{\GASPISUCC}{\GASPISUCCTXT}
+  \returnlistitem{\GASPITIME}{\GASPITIMETXT}
+  \returnlistitem{\GASPIGERR}{\GASPIGERRTXT}
+  \returnlistitem{\GASPIQUEUE}{\GASPIQUEUETXT}
   \fdeffinal\returnlistend
 }
 \newcommand{\FStdRetDescNOTimeout}
@@ -185,7 +197,7 @@ basicstyle=\ttfamily
 ~\\
 Specification of a PGAS API for communication\\
 ~\\
-Version 16.6
+Version 17.1
 }
 \begin{document}
 \begin{titlepage}
@@ -522,7 +534,7 @@ reductions with user defined operations.
 Collective operations are/will be synchronized independently from the
 operations on the communication queues.
 \subsection{GASPI return values}
-GASPI procedures have three general return values:
+GASPI procedures have four general return values:
 \begin{description}
  \item[\GASPISUCC{}] implies that the procedure has completed successfully.
  \item[\GASPITIME{}] implies that the procedure could not complete in the
@@ -533,6 +545,12 @@ GASPI procedures have three general return values:
   There are no predefined error values specifying the detailed cause of an error.
   \gaspifunction{error_message} translates the error code into a human
   readable format.
+\item [\GASPIQUEUE{}]implies that one of the function calls \gaspifunction{notify},
+  \gaspifunction{write}, \gaspifunction{write_notify}, \gaspifunction{write_list_notify},
+  \gaspifunction{read}, \gaspifunction{read_notify} and \gaspifunction{read_list_notify}
+  has reached the end of the queue and that the corresponding communication request
+  could not be issued. If \GASPIQUEUE{} is returned, users should either switch
+  to another queue or wait (see \gaspifunction{wait}) and subsequently re-issue the communication request.
 \end{description}
 \begin{implementoradvice}
 An implementation may provide specific error values. All error codes
@@ -669,6 +687,10 @@ optimizations.
 \begin{TDef}
 \TDefDef{\GASPIGERR{}} 
 \TDefDesc{GASPI_ERROR is returned if a procedure call finished with an error.}
+\end{TDef}
+\begin{TDef}
+  \TDefDef{\GASPIQUEUE{}}
+  \TDefDesc{GASPI_QUEUE_FULL is returned if the end of the used queue has been reached.}
 \end{TDef}
 \subsubsection{State vector states}
 \begin{TDef}
@@ -1373,14 +1395,16 @@ required, in each of the following operations:
   \end{itemize}
 \item one-sided communication
   \begin{itemize}
-    \item \gaspifunction{wait}
     \item \gaspifunction{write}
-    \item \gaspifunction{read}
-    \item \gaspifunction{write_list}
-    \item \gaspifunction{read_list}
-    \item \gaspifunction{notify}
     \item \gaspifunction{write_notify}
+    \item \gaspifunction{write_list}
     \item \gaspifunction{write_list_notify}
+    \item \gaspifunction{read}
+    \item \gaspifunction{read_notify}
+    \item \gaspifunction{read_list}
+    \item \gaspifunction{read_list_notify}
+    \item \gaspifunction{notify}
+    \item \gaspifunction{wait}
   \end{itemize}
 \item passive communication
   \begin{itemize}
@@ -2503,11 +2527,13 @@ communication patterns:
 \item \gaspifunction{write_list}
 \item \gaspifunction{write_list_notify}
 \end{itemize}
-The read operations have two different variants that allow different
+The read operations have four different variants that allow different
 communication patterns:
 \begin{itemize}
 \item \gaspifunction{read}
+\item \gaspifunction{read_notify}
 \item \gaspifunction{read_list}
+\item \gaspifunction{read_list_notify}
 \end{itemize}
 The read operations do not support notification calls. This is due to
 the fact that a notification can only be transferred after ensuring
@@ -2580,7 +2606,7 @@ end function gaspi_write
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
 \gaspifunction{write} posts a communication request which asynchronously transfers a contiguous block
 of size bytes from a source location of the local GASPI process to a target location of a
@@ -2610,12 +2636,10 @@ for the same queue. A subsequent call of \gaspifunction{write} has to be
 invoked in order to complete the write call.
 A communication request posted to a given queue can be considered as completed, if
 the correspondent \gaspifunction{wait} returns with \GASPISUCC{}.
-If the queue to which the communication request is posted is full, i.\,e.\ if the number of
+If the queue to which the communication request has been posted is full, i.\,e.\ if the number of
 posted communication requests has already reached the queue size of a given queue, the communication
-request fails and the procedure returns with return value \GASPIGERR{}.
-If a saturated queue is detected, there are the following two options:
-Either one invokes a \gaspifunction{wait} on the given queue in order to wait for all the
-posted requests to be finished. Alternatively it is possible to use another queue.
+request has not been issued and the procedure returns with return value \GASPIQUEUE{}.
+In this case users should either switch to another queue or wait (see \gaspifunction{wait}) and subsequently re-issue the communication request.
 \begin{useradvice}
   Return value \GASPISUCC{} does not mean, that the data has been transferred
   or buffered or that the data has arrived at the remote side.
@@ -2688,7 +2712,7 @@ end function gaspi_read
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
 \gaspifunction{read} posts a communication request which asynchronously transfers a contiguous block
 of size bytes from a source location of a remote GASPI process to a target location of the
@@ -2710,14 +2734,12 @@ to the hardware during the given timeout. This can happen, if another thread is 
 for the same queue. A subsequent call of \gaspifunction{read} has to be
 invoked in order to complete the read call.
 A communication request posted to a given queue can be considered as completed, if the
-the correspondent \gaspifunction{wait} returns with \GASPISUCC{}. For completed  \gaspifunction{read}
+correspondent \gaspifunction{wait} returns with \GASPISUCC{}. For completed  \gaspifunction{read}
 requests, the data is guaranteed to be locally available.
-If the queue to which the communication request is posted is full, i.\,e.\ that the number of
+If the queue to which the communication request has been posted is full, i.\,e.\ if the number of
 posted communication requests has already reached the queue size of a given queue, the communication
-request fails and the procedure returns with return value \GASPIGERR{}. If a saturated queue
-is detected, there are the following two options:
-Either one invokes a \gaspifunction{wait} on the given queue in order to wait for all the
-posted requests to be finished. Or one tries to use another queue.
+request has not been issued and the procedure returns with return value \GASPIQUEUE{}.
+In this case users should either switch to another queue or wait (see \gaspifunction{wait}) and subsequently re-issue the communication request.
 \begin{useradvice}
   Return value \GASPISUCC{} does not mean, that the data transfer has
   started or that the data has been received at the local
@@ -2829,7 +2851,7 @@ The definition of the macro \verb|ASSERT| is given in the listings
 \ref{lst:success_or_die_h} and \ref{lst:success_or_die_c}.
 The definition of the function
 \verb|wait_if_queue_full| is given in the listings
-\ref{lst:wait_if_queue_full_h} and \ref{lst:wait_if_queue_full_c}
+\ref{lst:wait_if_queue_full_h} 
 starting on page \pageref{lst:wait_if_queue_full_h}.
 \subsection{Weak synchronisation primitives}
 \subsubsection{Introduction}
@@ -2902,7 +2924,7 @@ end function gaspi_notify
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
 \gaspifunction{notify} posts a notification request which asynchronously transfers the notification
 notification_value of the local GASPI process to an internal notification buffer of a
@@ -2928,10 +2950,11 @@ to the hardware during the given timeout. This can happen if another thread is i
 for the same queue. A subsequent call of \gaspifunction{notify} has to be
 invoked in order to complete the call.
 A notification request posted to a given queue can be considered as completed, if the
-the correspondent \gaspifunction{wait} returns with \GASPISUCC{}.
-If the queue to which the communication request is posted is full, i.\,e.\ that the number of
-posted communication requests has already reached the queue size of a given queue, the communication
-request fails.
+correspondent \gaspifunction{wait} returns with \GASPISUCC{}.
+If the queue to which the notification request has been posted is full, i.\,e.\ if the number of
+posted communication requests has already reached the queue size of a given queue, the notification
+request has not been issued and the procedure returns with return value \GASPIQUEUE{}.
+In this case users should either switch to another queue or wait (see \gaspifunction{wait}) and subsequently re-issue the notification request.
 \begin{useradvice}
   Return value \GASPISUCC{} does not mean, that the notification has
   been transferred or that the notification has arrived at the remote
@@ -3020,9 +3043,9 @@ undefined.
 \begin{useradvice}
 One scenario for the usage of \gaspifunction{notify_waitsome}
 inspecting only one notification is the following: The 
-local side posts a \gaspifunction{read_notify} call. GASPI guarantees, that
-if the notification has arrived on the local process, the posted read
-request carrying the work load of the function \gaspifunction{read_notify}
+local side posts a \gaspifunction{read_notify} (\gaspifunction{read_list_notify}) call.
+GASPI guarantees, that if the notification has arrived on the local process, the posted read
+request carrying the work load of the function \gaspifunction{read_notify} (\gaspifunction{read_list_notify})
 has arrived as well.
 \end{useradvice}
 \begin{useradvice}
@@ -3096,10 +3119,21 @@ the GASPI process.
 In case of error, i.\,e.\ return value \GASPIGERR, the value of
 old_notification_val is undefined.
 \subsection{Extended communication calls}
+All extended calls may be posted from every thread of the GASPI process.
 All restrictions applying to \gaspifunction{write} and
-\gaspifunction{notify} also apply here. In case of timeout or error,
-no assumptions may be made regarding either the written data or the
-notification.
+\gaspifunction{notify} also apply here. 
+If these calls return with \GASPITIME{}, the communication request could not be posted
+to the hardware during the given timeout. This can happen, if another thread is in a \gaspifunction{wait}
+for the same queue. A subsequent call of the communication request has to be
+invoked in order to complete the read call.
+A communication request posted to a given queue can be considered as completed, if the
+correspondent \gaspifunction{wait} returns with \GASPISUCC{}. 
+If the queue to which the communication request has been posted is full, i.\,e.\ if the number of
+posted communication requests has already reached the queue size of a given queue, the communication
+request has not been issued and the procedure returns with return value \GASPIQUEUE{}.
+In this case users should either switch to another queue or wait (see \gaspifunction{wait}) and subsequently re-issue the communication request.
+The user should be aware that a subsequent \gaspifunction{notify} only guarantees non-overtaking conditions for the same queue to
+which previous communication requests been posted.
 \subsubsection{\gaspifunction{write_notify}}
 The \gaspifunction{write_notify} variant extends the simple
 \gaspifunction{write} with a notification on the remote
@@ -3173,7 +3207,7 @@ end function gaspi_write_notify
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
 \begin{implementoradvice}
 The procedure is not semantically equivalent to a call to \gaspifunction{write}
@@ -3247,7 +3281,7 @@ end function gaspi_write_list
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
 \begin{implementoradvice}
 The procedure is semantically equivalent to num subsequent calls
@@ -3274,6 +3308,7 @@ GASPI_WRITE_LIST_NOTIFY
                 , segment_id_remote[num]
                 , offset_remote[num]
                 , size[num]
+                , segment_id_notification
                 , notification_id
                 , notification_value
                 , queue
@@ -3288,6 +3323,7 @@ GASPI_WRITE_LIST_NOTIFY
 \parameterlistitem{in}{segment_id_remote[num]}{list of remote segments to write to}
 \parameterlistitem{in}{offset_remote[num]}{list of remote offsets to write to}
 \parameterlistitem{in}{size[num]}{list of sizes of the data to write}
+\parameterlistitem{in}{segment_id_notification}{the segment use for the remote notification}
 \parameterlistitem{in}{notification_id}{the remote notification ID}
 \parameterlistitem{in}{notification_value}{the value of the notification to write}
 \parameterlistitem{in}{queue}{the queue to use}
@@ -3304,6 +3340,7 @@ gaspi_write_list_notify
                 , gaspi_segment_id_t *segment_id_remote
                 , gaspi_offset_t *offset_remote
                 , gaspi_size_t *size
+                , gaspi_segment_id_t segment_id_notification
                 , gaspi_notification_id_t notification_id
                 , gaspi_notification_t notification_value
                 , gaspi_queue_id_t queue
@@ -3334,7 +3371,7 @@ end function gaspi_write_list_notify
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
 \begin{implementoradvice}
 The procedure is not semantically equivalent to a call to \gaspifunction{write_list}
@@ -3410,7 +3447,7 @@ end function gaspi_read_notify
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
 \begin{useradvice}
 In contrast to the procedure \gaspifunction{write_notify}, the notification 
@@ -3508,8 +3545,102 @@ end function gaspi_read_list
 \end{verbatim}
 \end{FDefSign}
 \executionphasework
-\FStdRetDesc
+\FStdRetDescQueue
 \end{FDef}
+\subsubsection{\gaspifunction{read_list_notify}}
+The \gaspifunction{read_list_notify} variant extends the simple
+\gaspifunction{read_list} with a notification on the local
+side. This applies to communication patterns that require tighter
+synchronisation on data movement. The local receiver of the data is
+notified when the read list is finished and can verify this through the
+procedure \gaspifunction{waitsome}. It is an asynchronous
+non-local time-based blocking
+procedure.
+\begin{FDef}
+\begin{FDefSign}
+\begin{verbatim}
+GASPI_READ_LIST_NOTIFY ( num
+                       , segment_id_local[num]
+                       , offset_local[num]
+                       , rank
+                       , segment_id_remote[num]                                                                       
+                       , offset_remote[num]        
+                       , size[num]
+                       , segment_id_notification
+                       , notification_id_local
+                       , queue
+                       , timeout )
+\end{verbatim}
+\end{FDefSign}
+\parameterlistbegin
+\parameterlistitem{in}{num}{the number of elements to read}
+\parameterlistitem{in}{segment_id_local[num]}{the local segment ID's to write to}
+\parameterlistitem{in}{offset_local[num]}{the local offsets to write to}
+\parameterlistitem{in}{rank}{the remote rank to read from}
+\parameterlistitem{in}{segment_id_remote[num]}{the remote segment ID's to read from}
+\parameterlistitem{in}{offset_remote[num]}{the remote offsets in bytes to read from}
+\parameterlistitem{in}{size[num]}{the size of the data elements to read}
+\parameterlistitem{in}{segment_id_notification}{the segment used for the local notification}
+\parameterlistitem{in}{notification_id}{the local notification ID}
+\parameterlistitem{in}{queue}{the queue to use}
+\parameterlistitem{in}{timeout}{the timeout}
+\parameterlistend
+\begin{FDefSign}
+\begin{verbatim}
+gaspi_return_t
+gaspi_read_list_notify ( gaspi_number_t num
+                  , gaspi_segment_id_t *segment_id_local
+                  , gaspi_offset_t *offset_local
+                  , gaspi_rank_t rank
+                  , gaspi_segment_id_t *segment_id_remote
+                  , gaspi_offset_t *offset_remote
+                  , gaspi_size_t *size
+                  , gaspi_segment_id_t segment_id_notification
+                  , gaspi_notification_id_t notification_id
+                  , gaspi_queue_id_t queue
+                  , gaspi_timeout_t timeout )
+\end{verbatim}
+\end{FDefSign}
+\begin{FDefSign}
+\begin{verbatim}
+function gaspi_read_list_notify(num,segment_id_local,&
+&         offset_local,rank,&
+&         segment_id_remote, offset_remote,size,&
+&         segment_id_notification,notification_id,queue,&
+&         timeout_ms) &           
+&         result( res ) bind(C, name=''gaspi_read_list_notify'')
+  integer(gaspi_number_t), value :: num
+  type(c_ptr), value :: segment_id_local                     
+  type(c_ptr), value :: offset_local
+  integer(gaspi_rank_t), value :: rank
+  type(c_ptr), value :: segment_id_remote
+  type(c_ptr), value :: offset_remote
+  type(c_ptr), value :: size
+  integer(gaspi_segment_id_t), value :: segment_id_notification
+  integer(gaspi_notification_id_t), value :: notification_id
+  integer(gaspi_queue_id_t), value :: queue
+  integer(gaspi_timeout_t), value :: timeout_ms
+  integer(gaspi_return_t) :: res
+end function gaspi_read_list_notify
+\end{verbatim}
+\end{FDefSign}
+\executionphasework
+\FStdRetDescQueue
+\end{FDef}
+\begin{useradvice}
+  In contrast to the procedure \gaspifunction{write_list_notify}, the notification
+  in the procedure \gaspifunction{read_list_notify} carries the (fixed) notification value of 1.
+  Similar to the procedure \gaspifunction{write_list_notify} a call to \gaspifunction{read_list_notify}
+  only guarantees ordering with respect to the data bundled in this communication and the given notification.
+  Specifically there are no ordering guarantees to other read operations. For this latter functionality
+  a call to the \gaspifunction{wait} procedure is required.
+\end{useradvice}
+\begin{implementoradvice}
+  The procedure is not semantically equivalent to a call to \gaspifunction{read_list}
+  and a subsequent call of \gaspifunction{notify}, since the latter aims at remote completion
+  rather than local completion. Also this call does not enforce an ordering relative to other
+  read operations.
+\end{implementoradvice}
 \subsection{Communication utilities}
 \subsubsection{\gaspifunction{queue_create}}
 The \gaspifunction{queue_create} procedure is a
@@ -4125,7 +4256,7 @@ end function gaspi_atomic_compare_swap
 \FStdRetDesc
 \end{FDef}
 \gaspifunction{atomic_compare_swap} atomically compares the global
-value of the the value on rank rank,
+value of the value on rank rank,
 segment segment_id_remote and
 offset offset_remote to the value
 of comparator. If the comparison is true, this global
@@ -5400,5 +5531,4 @@ end function gaspi_pcontrol
 \insertlisting{../examples/success_or_die.c}{success_or_die.c}
 \subsection{wait_if_queue_full}
 \insertlisting{../examples/wait_if_queue_full.h}{wait_if_queue_full.h}
-\insertlisting{../examples/wait_if_queue_full.c}{wait_if_queue_full.c}
 \end{document}

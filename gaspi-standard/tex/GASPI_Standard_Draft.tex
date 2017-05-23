@@ -21,8 +21,8 @@
 \usepackage{mparhack}
 \usepackage{moreverb}
 \usepackage{listings}
-
 \usepackage{ifthen}
+\usepackage{hyperref}
 
 \setlength{\tabcolsep}{5pt}
 \setlength{\arraycolsep}{5pt}
@@ -57,8 +57,16 @@
 \newcommand{\zerowsep}{\hskip 0pt plus 0.1pt minus 0.1pt}
 
 \makeatletter
-\newcommand{\ZSEP}[1]{\ifx#1\@@@EOZ@@@\let\next\relax\else\ifx#1\_#1\zerowsep\else#1\fi\let\next\ZSEP\fi\next}
-\newcommand{\zsep}[1]{\ZSEP{}#1\@@@EOZ@@@}
+
+%
+% conflicts with hyperref package 
+%
+%\newcommand{\ZSEP}[1]{\ifx#1\@@@EOZ@@@\let\next\relax\else\ifx#1\_#1\zerowsep\else#1\fi\let\next\ZSEP\fi\next}
+%\newcommand{\zsep}[1]{\ZSEP{}#1\@@@EOZ@@@}
+
+\newcommand{\ZSEP}[1]{#1}
+\newcommand{\zsep}[1]{#1}
+
 \makeatother
 
 \newcommand{\sol}[1]{\emph{\zsep{#1}}}
